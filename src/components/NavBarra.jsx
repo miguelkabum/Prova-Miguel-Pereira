@@ -7,13 +7,13 @@ const NavBarra = () => {
     <>
     <Navbar expand="lg" className="bg-body-tertiary" bg="dark" data-bs-theme="dark"> 
       <Container>
-        <Navbar.Brand href="#home">C&G Solutions</Navbar.Brand>
+        <Navbar.Brand href="#home"></Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="/home">Home</Nav.Link>
-            <Nav.Link href="/cadastro">Cadastro</Nav.Link>
-            <Nav.Link href="/login">Login</Nav.Link>
+            <Nav.Link href="/home">Produtos</Nav.Link>
+            <Nav.Link href="/cadastro">Cadastrar produtos</Nav.Link>
+            <Nav.Link href="/login">Sair</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

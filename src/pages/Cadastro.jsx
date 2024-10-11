@@ -1,129 +1,123 @@
 import React, { useState } from "react";
-import { Container } from "react-bootstrap";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import Alert from "react-bootstrap/Alert";
-import Nav from "react-bootstrap/Nav";
-
 import { useNavigate } from "react-router-dom";
+import Alert from "react-bootstrap/Alert";
+import NavBarra from "../components/NavBarra";
 
-const url = "http://localhost:5000/usuarios"
+const url = "http://localhost:5000/usuarios";
 
-const Cadastro = () => {
+const Cadastrar = (props) => {
   const [nome, setNome] = useState("");
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
-  const [confirmaSenha, setConfirmaSenha] = useState("");
+  const [categoria, setCategoria] = useState("");
+  const [preco, setPreco] = useState("");
 
-  const [alertaClass, setAlertalass] = useState("mb-3 d-none");
+  const [alertaClass, setAlertaclass] = useState("mb-3 d-none");
   const [alertaMensagem, setAlertaMensagem] = useState("");
-  const  navigate = useNavigate()
-  
-  const handleSubmit = async (e) => {
-    e.preventDefault()
+  const [alertaVariante, setAletaVariante] = useState("");
 
-    if(!nome == ""){
-      if(!email == ""){
-        if(!senha == "" && !confirmaSenha == ""){
-          const user = {nome, email, senha}
-          const res = await fetch(url, {
-            method: "POST",
-            headers: {"Content-Type" : "application/json"},
-            body: JSON.stringify(user)
-          })
-          alert("Usuário cadastrado com sucesso!")
-          setNome("")
-          setEmail("")
-          setSenha("")
-          setConfirmaSenha("")
-          setAlertalass("mb-3 d-none")
-          navigate("/login")
-        }else{
-          setAlertalass("mb-3")
-          setAlertaMensagem("O campo 'Senha' não pode ser vazio")
-        }
+  const navigate = useNavigate();
 
-      }else{
-        setAlertalass("mb-3")
-      setAlertaMensagem("O campo 'E-mail' não pode ser vazio")
-      }
-    }else{
-      setAlertalass("mb-3")
-      setAlertaMensagem("O campo 'Nome' não pode ser vazio")
+  const handleCadastrar = async () => {
+    if (!nome == "" && !categoria == "" && !preco == "") {
+      const user = { nome, categoria, preco };
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(user),
+      });
+      setNome("");
+      setCategoria("");
+      setPreco("");
+      navigate("/home");
+    } else {
+      setAlertaclass("mb-3");
+      setAlertaMensagem("Por favor, preencha todos os campos!");
     }
-  }
+  };
 
   return (
     <>
-      
-      <Container style={{display: "flex", flexDirection: "column", textAlign: "center", gap:"12px"}}>
-      <span class="material-symbols-outlined" style={{fontSize: "140px"}}>person_add</span>
-        <form onSubmit={handleSubmit}>
-          <h1 style={{fontSize: "70px"}}>Cadastro</h1> <br />
-          <FloatingLabel controlId="floatingName" label="Nome" className="mb-3">
-            <Form.Control
-              type="text"
-              placeholder="name@example.com"
-              value={nome}
-              onChange={(e) => {
-                setNome(e.target.value);
-              }}
-            />
-          </FloatingLabel>
-          <FloatingLabel
-            controlId="floatingInputEmail"
-            label="E-mail"
-            className="mb-3"
+      <NavBarra />
+      <div
+        style={{
+          display: "grid",
+          justifyContent: "center",
+        }}
+      >
+        <h1
+          style={{
+            fontSize: "50px",
+            padding: "22px 0",
+          }}
+        >
+          Cadastrar Produtos
+        </h1>
+
+        <FloatingLabel
+          controlId="floatingName"
+          label="Nome do produto"
+          className="mb-3"
+        >
+          <Form.Control
+            type="text"
+            placeholder="name@example.com"
+            value={nome}
+            onChange={(e) => {
+              setNome(e.target.value);
+            }}
+          />
+        </FloatingLabel>
+        <FloatingLabel
+          controlId="floatingInputEmail"
+          label="Categoria"
+          className="mb-3"
+        >
+          <Form.Control
+            type="Categoria"
+            placeholder="name@example.com"
+            value={categoria}
+            onChange={(e) => {
+              setCategoria(e.target.value);
+            }}
+          />
+        </FloatingLabel>
+        <FloatingLabel
+          controlId="floatingPassword"
+          label="Preços"
+          className="mb-3"
+        >
+          <Form.Control
+            type="text"
+            placeholder="Preço"
+            value={preco}
+            onChange={(e) => {
+              setPreco(e.target.value);
+            }}
+          />
+          <Alert
+            key="danger"
+            variant="danger"
+            className={alertaClass}
+            style={{ top: "12px" }}
           >
-            <Form.Control
-              type="email"
-              placeholder="name@example.com"
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
-            />
-          </FloatingLabel>
-          <FloatingLabel
-            controlId="floatingPassword"
-            label="Senha"
-            className="mb-3"
-          >
-            <Form.Control
-              type="password"
-              placeholder="Senha"
-              value={senha}
-              onChange={(e) => {
-                setSenha(e.target.value);
-              }}
-            />
-          </FloatingLabel>
-          <FloatingLabel
-            controlId="floatingConfirmPassword"
-            label="Confirme a sua senha"
-            className="mb-3"
-          >
-            <Form.Control
-              type="password"
-              placeholder="Password"
-              value={confirmaSenha}
-              onChange={(e) => {
-                setConfirmaSenha(e.target.value);
-              }}
-            />
-          </FloatingLabel>
-          <Alert key="danger" variant="danger" className={alertaClass}>
             {alertaMensagem}
           </Alert>
-          <Button type="submit" variant="primary">Cadastrar</Button>{" "}
-        </form>
-        <p>
-          Já tem um cadastro? <Nav.Link href="/login">Login</Nav.Link>
-        </p>
-      </Container>
+        </FloatingLabel>
+        <Button
+          style={{
+            backgroundColor: "#344e41",
+            border: "none",
+            color: "#ffffff",
+          }}
+          onClick={() => handleCadastrar()}
+        >
+          Cadastrar produto
+        </Button>
+      </div>
     </>
   );
 };
 
-export default Cadastro;
+export default Cadastrar;
